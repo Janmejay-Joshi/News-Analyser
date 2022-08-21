@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
+from functools import partial
 import pandas as pd
 from multiprocessing import Pool
 import itertools
@@ -23,7 +24,7 @@ def split_news_by_year(df: pd.DataFrame) -> list:
     return yearly_tokens
 
 
-def dataframe_to_fdist(df: pd.DataFrame) -> dict:
+def dataframe_to_monogram_fdist(df: pd.DataFrame) -> dict:
     def tokenize(token_s: str) -> list:
         return token_s.split()
 
@@ -33,10 +34,24 @@ def dataframe_to_fdist(df: pd.DataFrame) -> dict:
     return dict(nltk.FreqDist(combined_tokens))
 
 
+def dataframe_to_ngram_fdist(df: pd.DataFrame, n:int) -> dict:
+    def tokenize(token_s: str) -> list:
+        return token_s.split()
+
+    df["headline_tokens"] = df["headline_tokens"].apply(tokenize)
+    combined_tokens = list(itertools.chain.from_iterable(df["headline_tokens"]))
+    ngram_tokens = nltk.ngrams(combined_tokens,n=n)
+
+    fdist =  dict(nltk.FreqDist(ngram_tokens))
+    processed_dict =  {' '.join(k): v for k, v in fdist.items()}
+    
+    return processed_dict
+
+
 
 def main() -> None:
     news = chunk_read_csv(
-        "./datasets/processed_news.csv", usecols=["publish_date", "headline_tokens"]
+        "./data/processed_news.csv", usecols=["publish_date", "headline_tokens"]
     )
 
     combined_df = pd.concat(news, axis=0)
@@ -44,23 +59,25 @@ def main() -> None:
     del combined_df
 
     with Pool(8) as p:
-        mono_trend = p.map(dataframe_to_fdist, yearly_news)
+        mono_trend = p.map(dataframe_to_monogram_fdist, yearly_news)
 
-        with open('./datasets/MonoGramTrends.json','w') as f:
-            json.dump(mono_trend, f, sort_keys=True, indent=4)
-            del mono_trend
+    with open('./data/MonoGramTrends.json','w') as f:
+        json.dump(mono_trend, f, indent=4)
+        del mono_trend
 
-        bi_trend = p.map(dataframe_to_fdist, yearly_news)
+    with Pool(8) as p:
+        bi_trend = p.map(partial(dataframe_to_ngram_fdist, n=2), yearly_news)
 
-        with open('./datasets/BiGramTrends.json','w') as f:
-            json.dump(bi_trend, f, sort_keys=True, indent=4)
-            del bi_trend
+    with open('./data/BiGramTrends.json','w') as f:
+        json.dump(bi_trend, f, indent=4)
+        del bi_trend
 
-        tri_trend = p.map(dataframe_to_fdist, yearly_news)
+    with Pool(8) as p:
+        tri_trend = p.map(partial(dataframe_to_ngram_fdist, n=3), yearly_news)
         
-        with open('./datasets/TriGramTrends.json','w') as f:
-            json.dump(tri_trend, f, sort_keys=True, indent=4)
-            del tri_trend 
+    with open('./data/TriGramTrends.json','w') as f:
+        json.dump(tri_trend, f, indent=4)
+        del tri_trend 
 
 
 

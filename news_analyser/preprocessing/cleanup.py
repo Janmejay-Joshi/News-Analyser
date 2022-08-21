@@ -4,6 +4,7 @@
 import swachhdata.text as sdt
 import pandas as pd
 import re
+from csv import QUOTE_NONNUMERIC
 from multiprocessing import Pool
 from ..helper import chunk_read_csv
 
@@ -38,14 +39,14 @@ def cleanNewsText(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
-    news = chunk_read_csv("./datasets/india-news-headlines.csv")
+    news = chunk_read_csv("./data/india-news-headlines.csv")
 
     with Pool(8) as p:
         processed_chunks = p.map(cleanNewsText, news)
 
     processed_df = pd.concat(processed_chunks, axis=0)
     processed_df.to_csv(
-        "./datasets/processed_news.csv", sep="~", index=False, encoding="utf-8"
+        "./data/processed_news.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
     )
 
 

@@ -6,5 +6,5 @@ from pandas.io.parsers import TextFileReader
 
 
 def chunk_read_csv(path: str, chunksize: int = 500000, usecols=None) -> TextFileReader:
-    return pd.read_csv(path, delimiter="~", chunksize=chunksize, usecols=usecols)
+    return pd.read_csv(path, chunksize=chunksize, usecols=usecols)
 

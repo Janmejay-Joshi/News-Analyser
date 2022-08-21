@@ -3,7 +3,9 @@
 
 from textblob import TextBlob
 from multiprocessing import Pool
+from csv import QUOTE_NONNUMERIC
 import pandas as pd
+
 from ..helper import chunk_read_csv
 
 
@@ -38,7 +40,7 @@ def main():
 
     processed_news = pd.concat(processed_chunks, axis=0)
     processed_news.to_csv(
-        "./datasets/news_sentiments.csv", sep="~", index=False, encoding="utf-8"
+        "./datasets/news_sentiments.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
     )
 
 
