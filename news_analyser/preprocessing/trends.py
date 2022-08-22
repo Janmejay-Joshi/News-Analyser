@@ -72,12 +72,12 @@ def main() -> None:
         json.dump(bi_trend, f, indent=4)
         del bi_trend
 
-    with Pool(8) as p:
-        tri_trend = p.map(partial(dataframe_to_ngram_fdist, n=3), yearly_news)
-        
-    with open('./data/TriGramTrends.json','w') as f:
-        json.dump(tri_trend, f, indent=4)
-        del tri_trend 
+    # with Pool(8) as p:
+    #     tri_trend = p.map(partial(dataframe_to_ngram_fdist, n=3), yearly_news)
+    #     
+    # with open('./data/TriGramTrends.json','w') as f:
+    #     json.dump(tri_trend, f, indent=4)
+    #     del tri_trend 
 
 
 

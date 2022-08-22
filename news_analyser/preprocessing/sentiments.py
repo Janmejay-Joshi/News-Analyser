@@ -33,14 +33,14 @@ def sentiment_analysis(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def main():
-    news = chunk_read_csv("./datasets/processed_news.csv")
+    news = chunk_read_csv("./data/processed_news.csv")
 
     with Pool(8) as p:
         processed_chunks = p.map(sentiment_analysis, news)
 
     processed_news = pd.concat(processed_chunks, axis=0)
     processed_news.to_csv(
-        "./datasets/news_sentiments.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
+        "./data/news_sentiments.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
     )
 
 
