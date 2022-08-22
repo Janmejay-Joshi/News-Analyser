@@ -40,10 +40,12 @@ def main():
 
     processed_news = pd.concat(processed_chunks, axis=0)
     processed_news.to_csv(
-        "./data/news_sentiments.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
+        "./data/news_sentiments.csv",
+        quoting=QUOTE_NONNUMERIC,
+        index=False,
+        encoding="utf-8",
     )
 
 
 if __name__ == "__main__":
     main()
-

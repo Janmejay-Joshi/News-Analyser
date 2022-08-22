@@ -30,9 +30,7 @@ def cleanNewsText(df: pd.DataFrame) -> pd.DataFrame:
         return bool(text)
 
     processed_df = sdtPipeline(df)
-    processed_df["headline_tokens"] = processed_df["headline_tokens"].apply(
-        remove_extra_spaces
-    )
+    processed_df["headline_tokens"] = processed_df["headline_tokens"].apply(remove_extra_spaces)
     processed_df = processed_df[processed_df["headline_tokens"].apply(is_empty)]
 
     return processed_df
@@ -46,7 +44,10 @@ def main():
 
     processed_df = pd.concat(processed_chunks, axis=0)
     processed_df.to_csv(
-        "./data/processed_news.csv", quoting=QUOTE_NONNUMERIC, index=False, encoding="utf-8"
+        "./data/processed_news.csv",
+        quoting=QUOTE_NONNUMERIC,
+        index=False,
+        encoding="utf-8",
     )
 
 

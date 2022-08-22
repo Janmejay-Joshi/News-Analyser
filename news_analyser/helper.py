@@ -14,8 +14,7 @@ def yearly_split(df: pd.DataFrame) -> dict:
 
     for year in range(2001, 2022):
         temp = df.loc[
-            (df["publish_date"] > year * 10000) &
-            (df["publish_date"] < (year + 1) * 10000)
+            (df["publish_date"] > year * 10000) & (df["publish_date"] < (year + 1) * 10000)
         ]
 
         if not temp.empty:
