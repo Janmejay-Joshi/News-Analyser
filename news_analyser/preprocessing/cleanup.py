@@ -1,11 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import swachhdata.text as sdt
-import pandas as pd
 import re
 from csv import QUOTE_NONNUMERIC
 from multiprocessing import Pool
+
+import pandas as pd
+import swachhdata.text as sdt
+
 from ..helper import chunk_read_csv
 
 

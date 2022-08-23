@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pandas as pd
-from multiprocessing import Pool
 from functools import partial
+from multiprocessing import Pool
 from sys import argv
+
+import pandas as pd
+
 from ..helper import chunk_read_csv, get_news_from_tokens, yearly_split
 
 

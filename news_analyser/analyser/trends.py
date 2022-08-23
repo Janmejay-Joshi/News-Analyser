@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pandas as pd
 import json
 from sys import argv
+
+import pandas as pd
 
 
 def get_monogram_trend(

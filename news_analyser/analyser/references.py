@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-import pandas as pd
-from multiprocessing import Pool
 from functools import partial
+from multiprocessing import Pool
 from sys import argv
+
+import pandas as pd
+
 from ..helper import chunk_read_csv, get_news_from_tokens, yearly_split
 
 
@@ -29,12 +31,13 @@ def main(token: str = "cricket") -> None:
 
     with Pool(8) as p:
         processed_chunks = p.map(partial(get_news_from_tokens, token=token), news)
-        processed_df = pd.concat(processed_chunks, axis=0)
 
-        yearly = yearly_split(processed_df)
+    processed_df = pd.concat(processed_chunks, axis=0)
 
-        del processed_chunks, processed_df
+    yearly = yearly_split(processed_df)
+    del processed_chunks, processed_df
 
+    with Pool(8) as p:
         token_news = p.map(partial(getCloseRefsFromNews, token=token), yearly.values())
 
     for i, x in enumerate(token_news):

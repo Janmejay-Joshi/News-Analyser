@@ -1,10 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from textblob import TextBlob
-from multiprocessing import Pool
 from csv import QUOTE_NONNUMERIC
+from multiprocessing import Pool
+
 import pandas as pd
+from textblob import TextBlob
 
 from ..helper import chunk_read_csv
 

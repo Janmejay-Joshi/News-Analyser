@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from functools import partial
-import pandas as pd
-from multiprocessing import Pool
 import itertools
-import nltk
 import json
+from functools import partial
+from multiprocessing import Pool
+
+import nltk
+import pandas as pd
 
 from ..helper import chunk_read_csv
 
