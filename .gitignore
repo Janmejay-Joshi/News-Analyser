@@ -1,2 +1,3 @@
+.pre_commit.sh
 __pycache__
 data

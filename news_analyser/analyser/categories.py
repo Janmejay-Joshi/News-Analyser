@@ -54,6 +54,7 @@ def main(token: str = "cricket") -> None:
 
     print(token_news)
     print(get_token_catagory_freq(token_news))
+    print(get_catagory_freq(token_news, "india"))
 
 
 if __name__ == "__main__":
